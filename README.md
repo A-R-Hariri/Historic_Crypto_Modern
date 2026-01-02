@@ -1,6 +1,6 @@
-# Historic Crypto
+This is a maintained fork of Historic-Crypto by David Woroniuk (https://github.com/David-Woroniuk/Historic_Crypto).
 
-[![Downloads](https://pepy.tech/badge/historic-crypto)](https://pepy.tech/project/historic-crypto) [![Downloads](https://pepy.tech/badge/historic-crypto/month)](https://pepy.tech/project/historic-crypto)
+# Historic Crypto
 
 An open source Python library for the collection of Historical Cryptocurrency data.
 
