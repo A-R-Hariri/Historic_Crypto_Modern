@@ -99,7 +99,7 @@ class HistoricalData(object):
             raise ValueError("""Ticker: '{}' not available through CoinBase Pro API. Please use the Cryptocurrencies 
             class to identify the correct ticker.""".format(self.ticker))
 
-    def _date_cleaner(self, date_time: (datetime, str)):
+    def _date_cleaner(self, date_time: (datetime | str)):
         """This helper function presents the input as a datetime in the API required format."""
         if not isinstance(date_time, (datetime, str)):
             raise TypeError("The 'date_time' argument must be a datetime type.")
