@@ -56,13 +56,14 @@ Once you know the ticker which you would like to search for, you can search for 
 pip install Historic-Crypto
 from Historic_Crypto import HistoricalData
 
-new = HistoricalData('ETH-USD',300,'2020-06-01-00-00').retrieve_data()
+new = HistoricalData('ETH-USD', 300, '2025-06-01-00-00', '2025-06-02-00-00').retrieve_data()
+new = HistoricalData('ETH-USD', '1d', '2025-06-01-00-00', '2025-06-30-00-00').retrieve_data()
 ```
 The arguments for the class are listed below:
 | Argument | Description |
 | ------ | --------- |
 | ticker | supply the ticker information which you want to return (str). |
-| granularity | please supply a granularity in seconds (60, 300, 900, 3600, 21600, 86400) (int). |
+| granularity | please supply a granularity in seconds (60, 300, 900, 3600, 21600, 86400) (int) or ('1m', '5m', '15m', '1h', '6h', '1d') (str). |
 | start_date | a string in the format YYYY-MM-DD-HH-MM (str).  |
 | end_date | a string in the format YYYY-MM-DD-HH-MM (str). **Optional, Default: Now** |
 | verbose | printing during extraction. **Default: True** |
