@@ -14,10 +14,9 @@ The HistoricalData class returns all attributes (Open, Close, High, Low, Volume)
 
 # Installation
 
-From Python:
-```python
 Install: pip install historic-crypto-modern
 Backward compatible imports supported:
+```python
 from Historic_Crypto import HistoricalData
 from Historic_Crypto import Cryptocurrencies
 from Historic_Crypto import LiveCryptoData
