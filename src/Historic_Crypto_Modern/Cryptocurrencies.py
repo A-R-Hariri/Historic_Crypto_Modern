@@ -3,7 +3,7 @@ import json
 import sys
 import pandas as pd
 
-from config import *
+from .config import *
 
 
 class Cryptocurrencies(object):

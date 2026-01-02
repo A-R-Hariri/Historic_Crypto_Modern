@@ -3,7 +3,8 @@ import requests
 import json
 import sys
 
-from config import *
+from .config import *
+
 
 class LiveCryptoData(object):
     """
