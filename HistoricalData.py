@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import requests
 import json
 import time
@@ -7,6 +5,8 @@ from random import randint
 import pandas as pd
 import sys
 from datetime import datetime, timedelta
+
+from config import *
 
 
 class HistoricalData(object):
@@ -40,10 +40,16 @@ class HistoricalData(object):
             raise TypeError("The 'end_date' argument must be a string or None type.")
         if not isinstance(verbose, bool):
             raise TypeError("The 'verbose' argument must be a boolean.")
-        if isinstance(granularity, int) is False:
-            raise TypeError("'granularity' must be an integer object.")
-        if granularity not in [60, 300, 900, 3600, 21600, 86400]:
-            raise ValueError("'granularity' argument must be one of 60, 300, 900, 3600, 21600, 86400 seconds.")
+        
+        if isinstance(granularity, int):
+            if granularity not in TIME_FRAMES.values():
+                raise ValueError(f"'granularity' argument must be one of {list(TIME_FRAMES.values())} seconds.")
+        elif isinstance(granularity, str):
+            if granularity not in TIME_FRAMES.keys():
+                raise ValueError(f"'granularity' argument must be one of {list(TIME_FRAMES.keys())}.")
+            granularity = TIME_FRAMES[granularity]
+        else:
+            raise TypeError("'granularity' must be an integer or string object.")
 
         if not end_date:
             end_date = datetime.today().strftime("%Y-%m-%d-%H-%M")
@@ -66,7 +72,7 @@ class HistoricalData(object):
         if self.verbose:
             print("Checking if user supplied is available on the CoinBase Pro API.")
 
-        tkr_response = requests.get("https://api.pro.coinbase.com/products")
+        tkr_response = requests.get(BASE_URL)
         if tkr_response.status_code in [200, 201, 202, 203, 204]:
             if self.verbose:
                 print('Connected to the CoinBase Pro API.')
@@ -118,7 +124,8 @@ class HistoricalData(object):
 
         if request_volume <= 300:
             response = requests.get(
-                "https://api.pro.coinbase.com/products/{0}/candles?start={1}&end={2}&granularity={3}".format(
+                "{0}/{1}/candles?start={2}&end={3}&granularity={4}".format(
+                    BASE_URL,
                     self.ticker,
                     self.start_date_string,
                     self.end_date_string,
@@ -161,7 +168,8 @@ class HistoricalData(object):
                 print("Provisional Start: {}".format(provisional_start))
                 print("Provisional End: {}".format(provisional_end))
                 response = requests.get(
-                    "https://api.pro.coinbase.com/products/{0}/candles?start={1}&end={2}&granularity={3}".format(
+                    "{0}/{1}/candles?start={2}&end={3}&granularity={4}".format(
+                        BASE_URL,
                         self.ticker,
                         provisional_start,
                         provisional_end,
@@ -173,7 +181,7 @@ class HistoricalData(object):
                                                                          (int(request_volume / max_per_mssg) + 1)))
                     dataset = pd.DataFrame(json.loads(response.text))
                     if not dataset.empty:
-                        data = data.append(dataset)
+                        data = pd.concat([data, dataset], ignore_index=True)
                         time.sleep(randint(0, 2))
                     else:
                         print("""CoinBase Pro API did not have available data for '{}' beginning at {}.  
@@ -203,8 +211,3 @@ class HistoricalData(object):
             data.sort_index(ascending=True, inplace=True)
             data.drop_duplicates(subset=None, keep='first', inplace=True)
             return data
-
-
-new = HistoricalData('BTC-USD', 3600, '2021-06-01-00-00', '2021-07-01-00-00').retrieve_data()
-print(new.head())
-print(new.tail())

@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
-
 import pandas as pd
 import requests
 import json
 import sys
 
+from config import *
 
 class LiveCryptoData(object):
     """
@@ -35,7 +34,7 @@ class LiveCryptoData(object):
         if self.verbose:
             print("Checking if user supplied is available on the CoinBase Pro API...")
 
-        tkr_response = requests.get("https://api.pro.coinbase.com/products")
+        tkr_response = requests.get(BASE_URL)
         if tkr_response.status_code in [200, 201, 202, 203, 204]:
             if self.verbose:
                 print('Connected to the CoinBase Pro API.')
@@ -68,7 +67,7 @@ class LiveCryptoData(object):
             print("Collecting data for '{}'".format(self.ticker))
 
         self._ticker_checker()
-        response = requests.get("https://api.pro.coinbase.com/products/{}/ticker".format(self.ticker))
+        response = requests.get("{0}/{1}/ticker".format(BASE_URL, self.ticker))
 
         if response.status_code in [200, 201, 202, 203, 204]:
             if self.verbose:
@@ -89,7 +88,3 @@ class LiveCryptoData(object):
             if self.verbose:
                 print("Status Code: {}, error in connecting to the CoinBase Pro API.".format(response.status_code))
             sys.exit()
-
-
-new = LiveCryptoData('BTC-USD').return_data()
-print(new)
