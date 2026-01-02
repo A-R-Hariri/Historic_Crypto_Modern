@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Historic-Crypto-Modern"
-version = "1.0.0"
+version = "1.0.1"
 description = "An open source Python library for scraping Historical Cryptocurrency data from CoinBase Pro API. (Maintained fork of Historic-Crypto)"
 readme = "README.md"
 license = { file = "LICENSE" }
