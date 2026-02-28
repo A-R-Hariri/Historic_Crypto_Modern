@@ -1,4 +1,4 @@
-This is a maintained fork of Historic-Crypto by David Woroniuk (https://github.com/David-Woroniuk/Historic_Crypto).
+This is a maintained fork of Historic-Crypto by: David Woroniuk (https://github.com/David-Woroniuk/Historic_Crypto).
 
 # Historic Crypto
 
